@@ -1,0 +1,2 @@
+# Install actual program
+install -p -D -m 0755 syncthing -t %{buildroot}/usr/bin/

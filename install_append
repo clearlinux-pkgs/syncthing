@@ -1,0 +1,17 @@
+
+# Install systemd service units
+install -p -D -m 0644 etc/linux-systemd/system/*.service -t %{buildroot}/usr/lib/systemd/system/
+install -p -D -m 0644 etc/linux-systemd/user/*.service   -t %{buildroot}/usr/lib/systemd/user/
+
+# Install desktop files
+install -p -D -m 0644 etc/linux-desktop/*.desktop -t %{buildroot}/usr/share/applications/
+
+# Install sysctl config to improve local LAN sync performance
+install -p -D -m 0644 etc/linux-sysctl/*.conf -t %{buildroot}/usr/lib/sysctl.d/
+
+# Install manpages
+shopt -s nullglob
+for manpage in man/*.[0-9]; do
+	section=$(expr match "${manpage}" '.*\.\([0-9]\)')
+	install -p -D -m 0644 ${manpage} -t %{buildroot}/usr/share/man/man${section}/
+done
