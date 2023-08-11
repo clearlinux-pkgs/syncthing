@@ -6,11 +6,11 @@
 # Source0 file verified with key 0xD26E6ED000654A3E (release@syncthing.net)
 #
 Name     : syncthing
-Version  : 1.23.6
-Release  : 1
-URL      : https://github.com/syncthing/syncthing/releases/download/v1.23.6/syncthing-source-v1.23.6.tar.gz
-Source0  : https://github.com/syncthing/syncthing/releases/download/v1.23.6/syncthing-source-v1.23.6.tar.gz
-Source1  : https://github.com/syncthing/syncthing/releases/download/v1.23.6/syncthing-source-v1.23.6.tar.gz.asc
+Version  : 1.23.7
+Release  : 2
+URL      : https://github.com/syncthing/syncthing/releases/download/v1.23.7/syncthing-source-v1.23.7.tar.gz
+Source0  : https://github.com/syncthing/syncthing/releases/download/v1.23.7/syncthing-source-v1.23.7.tar.gz
+Source1  : https://github.com/syncthing/syncthing/releases/download/v1.23.7/syncthing-source-v1.23.7.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : Apache-2.0 BSD-2-Clause BSD-3-Clause ISC MIT MPL-2.0 MPL-2.0-no-copyleft-exception
@@ -26,8 +26,11 @@ BuildRequires : go
 %define debug_package %{nil}
 
 %description
-This package is kept in sync with crypto/ed25519/internal/edwards25519/field in
-the standard library.
+PACKAGE
+package shellquote
+import "github.com/kballard/go-shellquote"
+Shellquote provides utilities for joining/splitting strings using sh's
+word-splitting rules.
 
 %package bin
 Summary: bin components for the syncthing package.
@@ -91,7 +94,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1689287178
+export SOURCE_DATE_EPOCH=1691765996
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -104,7 +107,7 @@ go run build.go -no-upgrade build syncthing  %{?_smp_mflags}
 
 
 %install
-export SOURCE_DATE_EPOCH=1689287178
+export SOURCE_DATE_EPOCH=1691765996
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/syncthing
 cp %{_builddir}/syncthing/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/d7e3ed5ac149ac1e2d2e0f4daff081c1dafef1c0 || :
