@@ -6,11 +6,11 @@
 # Source0 file verified with key 0xD26E6ED000654A3E (release@syncthing.net)
 #
 Name     : syncthing
-Version  : 1.23.7
-Release  : 2
-URL      : https://github.com/syncthing/syncthing/releases/download/v1.23.7/syncthing-source-v1.23.7.tar.gz
-Source0  : https://github.com/syncthing/syncthing/releases/download/v1.23.7/syncthing-source-v1.23.7.tar.gz
-Source1  : https://github.com/syncthing/syncthing/releases/download/v1.23.7/syncthing-source-v1.23.7.tar.gz.asc
+Version  : 1.24.0
+Release  : 3
+URL      : https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-source-v1.24.0.tar.gz
+Source0  : https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-source-v1.24.0.tar.gz
+Source1  : https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-source-v1.24.0.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : Apache-2.0 BSD-2-Clause BSD-3-Clause ISC MIT MPL-2.0 MPL-2.0-no-copyleft-exception
@@ -21,6 +21,7 @@ Requires: syncthing-license = %{version}-%{release}
 Requires: syncthing-man = %{version}-%{release}
 Requires: syncthing-services = %{version}-%{release}
 BuildRequires : go
+BuildRequires : llvm
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
@@ -94,20 +95,33 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1691765996
+export SOURCE_DATE_EPOCH=1694820427
 export GCC_IGNORE_WERROR=1
-export AR=gcc-ar
-export RANLIB=gcc-ranlib
-export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
-export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
-export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
-export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CC=clang
+export CXX=clang++
+export LD=ld.gold
+CFLAGS=${CFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
+CXXFLAGS=${CXXFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
+unset LDFLAGS
+export AR=llvm-ar
+export RANLIB=llvm-ranlib
+export NM=llvm-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto "
 go run build.go -no-upgrade build syncthing  %{?_smp_mflags}
 
 
+%check
+export LANG=C.UTF-8
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+go run build.go test syncthing
+
 %install
-export SOURCE_DATE_EPOCH=1691765996
+export SOURCE_DATE_EPOCH=1694820427
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/syncthing
 cp %{_builddir}/syncthing/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/d7e3ed5ac149ac1e2d2e0f4daff081c1dafef1c0 || :
@@ -126,7 +140,6 @@ cp %{_builddir}/syncthing/gui/default/vendor/moment/LICENSE %{buildroot}/usr/sha
 cp %{_builddir}/syncthing/lib/logger/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/a4c50f5c034ae8ad818e6f5773a7d65e03b58b37 || :
 cp %{_builddir}/syncthing/lib/protocol/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/59e0fe537bc596157e3417e3ff4038a26f579393 || :
 cp %{_builddir}/syncthing/next-gen-gui/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/d7e3ed5ac149ac1e2d2e0f4daff081c1dafef1c0 || :
-cp %{_builddir}/syncthing/vendor/github.com/AudriusButkevicius/pfilter/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/f05cae7b83dde413bee561ed6f27f89b06ad7265 || :
 cp %{_builddir}/syncthing/vendor/github.com/AudriusButkevicius/recli/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/d22157abc0fc0b4ae96380c09528e23cf77290a9 || :
 cp %{_builddir}/syncthing/vendor/github.com/Azure/go-ntlmssp/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/90778a2b78620d46a521986f99136e44a1dde89f || :
 cp %{_builddir}/syncthing/vendor/github.com/alecthomas/kong/COPYING %{buildroot}/usr/share/package-licenses/syncthing/78af3b5baa64be2c32fecd3ef812aee13904da2a || :
@@ -176,7 +189,6 @@ cp %{_builddir}/syncthing/vendor/github.com/prometheus/client_golang/NOTICE %{bu
 cp %{_builddir}/syncthing/vendor/github.com/prometheus/client_model/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/7df059597099bb7dcf25d2a9aedfaf4465f72d8d || :
 cp %{_builddir}/syncthing/vendor/github.com/prometheus/common/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/7df059597099bb7dcf25d2a9aedfaf4465f72d8d || :
 cp %{_builddir}/syncthing/vendor/github.com/prometheus/procfs/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/7df059597099bb7dcf25d2a9aedfaf4465f72d8d || :
-cp %{_builddir}/syncthing/vendor/github.com/quic-go/qtls-go1-19/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/d6a5f1ecaedd723c325a2063375b3517e808a2b5 || :
 cp %{_builddir}/syncthing/vendor/github.com/quic-go/qtls-go1-20/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/d6a5f1ecaedd723c325a2063375b3517e808a2b5 || :
 cp %{_builddir}/syncthing/vendor/github.com/quic-go/quic-go/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/78d85619a69f25c64fad9f76fc734a66107b18d4 || :
 cp %{_builddir}/syncthing/vendor/github.com/rcrowley/go-metrics/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/f4f6a4a62f50348c9f4fa311fd2023d8ed32e380 || :
@@ -300,7 +312,6 @@ done
 /usr/share/package-licenses/syncthing/e23f0c9f837e16ab8a47710ad840069df16a701b
 /usr/share/package-licenses/syncthing/e46e6a6dce75540a865a761f00e65c78b00c5895
 /usr/share/package-licenses/syncthing/e9e85ffe1ad083ba47b7c72f5553c3368a655872
-/usr/share/package-licenses/syncthing/f05cae7b83dde413bee561ed6f27f89b06ad7265
 /usr/share/package-licenses/syncthing/f4f6a4a62f50348c9f4fa311fd2023d8ed32e380
 /usr/share/package-licenses/syncthing/fa644321f4cb0aadb2bd05f398d4a23ae563128b
 /usr/share/package-licenses/syncthing/fd6460234f122a19f21affb6d6885269340b9176
