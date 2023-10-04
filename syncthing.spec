@@ -6,11 +6,11 @@
 # Source0 file verified with key 0xD26E6ED000654A3E (release@syncthing.net)
 #
 Name     : syncthing
-Version  : 1.24.0
-Release  : 3
-URL      : https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-source-v1.24.0.tar.gz
-Source0  : https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-source-v1.24.0.tar.gz
-Source1  : https://github.com/syncthing/syncthing/releases/download/v1.24.0/syncthing-source-v1.24.0.tar.gz.asc
+Version  : 1.25.0
+Release  : 4
+URL      : https://github.com/syncthing/syncthing/releases/download/v1.25.0/syncthing-source-v1.25.0.tar.gz
+Source0  : https://github.com/syncthing/syncthing/releases/download/v1.25.0/syncthing-source-v1.25.0.tar.gz
+Source1  : https://github.com/syncthing/syncthing/releases/download/v1.25.0/syncthing-source-v1.25.0.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : Apache-2.0 BSD-2-Clause BSD-3-Clause ISC MIT MPL-2.0 MPL-2.0-no-copyleft-exception
@@ -95,21 +95,26 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1694820427
+export SOURCE_DATE_EPOCH=1696441275
 export GCC_IGNORE_WERROR=1
 export CC=clang
 export CXX=clang++
 export LD=ld.gold
-CFLAGS=${CFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
-CXXFLAGS=${CXXFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
-unset LDFLAGS
+CLEAR_INTERMEDIATE_CFLAGS=${CLEAR_ORIG_CFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
+CLEAR_INTERMEDIATE_CXXFLAGS=${CLEAR_ORIG_CXXFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
 export AR=llvm-ar
 export RANLIB=llvm-ranlib
 export NM=llvm-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto "
+CLEAR_INTERMEDIATE_CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS -O3 -ffat-lto-objects -flto "
+CLEAR_INTERMEDIATE_FCFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -O3 -ffat-lto-objects -flto "
+CLEAR_INTERMEDIATE_FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -O3 -ffat-lto-objects -flto "
+CLEAR_INTERMEDIATE_CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS -O3 -ffat-lto-objects -flto "
+CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS"
+CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS"
+FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
+FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
+ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
+LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
 go run build.go -no-upgrade build syncthing  %{?_smp_mflags}
 
 
@@ -121,7 +126,26 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 go run build.go test syncthing
 
 %install
-export SOURCE_DATE_EPOCH=1694820427
+export GCC_IGNORE_WERROR=1
+export CC=clang
+export CXX=clang++
+export LD=ld.gold
+CLEAR_INTERMEDIATE_CFLAGS=${CLEAR_ORIG_CFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
+CLEAR_INTERMEDIATE_CXXFLAGS=${CLEAR_ORIG_CXXFLAGS/ -Wa,/ -fno-integrated-as -Wa,}
+export AR=llvm-ar
+export RANLIB=llvm-ranlib
+export NM=llvm-nm
+CLEAR_INTERMEDIATE_CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS -O3 -ffat-lto-objects -flto "
+CLEAR_INTERMEDIATE_FCFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -O3 -ffat-lto-objects -flto "
+CLEAR_INTERMEDIATE_FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -O3 -ffat-lto-objects -flto "
+CLEAR_INTERMEDIATE_CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS -O3 -ffat-lto-objects -flto "
+CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS"
+CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS"
+FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
+FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
+ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
+LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
+export SOURCE_DATE_EPOCH=1696441275
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/syncthing
 cp %{_builddir}/syncthing/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/d7e3ed5ac149ac1e2d2e0f4daff081c1dafef1c0 || :
@@ -159,10 +183,10 @@ cp %{_builddir}/syncthing/vendor/github.com/go-ole/go-ole/LICENSE %{buildroot}/u
 cp %{_builddir}/syncthing/vendor/github.com/go-task/slim-sprig/LICENSE.txt %{buildroot}/usr/share/package-licenses/syncthing/535e3badf5b532d842627b504976fbb93bc2d8b8 || :
 cp %{_builddir}/syncthing/vendor/github.com/gobwas/glob/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/1b2d963c77ddfc6454ca369fc4884e87e256a2e1 || :
 cp %{_builddir}/syncthing/vendor/github.com/gogo/protobuf/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/06b27345acae9303e13dde9974d2b2e318b05989 || :
-cp %{_builddir}/syncthing/vendor/github.com/golang/mock/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/2b8b815229aa8a61e483fb4ba0588b8b6c491890 || :
 cp %{_builddir}/syncthing/vendor/github.com/golang/protobuf/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/aa9b240f558caed367795f667629ccbca28f20b2 || :
 cp %{_builddir}/syncthing/vendor/github.com/golang/snappy/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/b7b97d84a5f0b778ab971d2afce44f47c8b6e80a || :
 cp %{_builddir}/syncthing/vendor/github.com/google/pprof/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/2b8b815229aa8a61e483fb4ba0588b8b6c491890 || :
+cp %{_builddir}/syncthing/vendor/github.com/google/uuid/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/08021ae73f58f423dd6e7b525e81cf2520f7619e || :
 cp %{_builddir}/syncthing/vendor/github.com/greatroar/blobloom/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/2b8b815229aa8a61e483fb4ba0588b8b6c491890 || :
 cp %{_builddir}/syncthing/vendor/github.com/hashicorp/golang-lru/v2/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/90857ae97e892cea98fe28613afba3366d56bbf3 || :
 cp %{_builddir}/syncthing/vendor/github.com/hashicorp/golang-lru/v2/simplelru/LICENSE_list %{buildroot}/usr/share/package-licenses/syncthing/bf88cc725ad09db6991d26b4af7cc790ef52c6fb || :
@@ -202,6 +226,7 @@ cp %{_builddir}/syncthing/vendor/github.com/urfave/cli/LICENSE %{buildroot}/usr/
 cp %{_builddir}/syncthing/vendor/github.com/vitrun/qart/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/3d9ca858ae047e05c8c031e24b41aea21417fc2a || :
 cp %{_builddir}/syncthing/vendor/github.com/vitrun/qart/LICENSE.bsd %{buildroot}/usr/share/package-licenses/syncthing/c2252212aa407a45427696985f2d8c7f774df3b2 || :
 cp %{_builddir}/syncthing/vendor/github.com/yusufpapurcu/wmi/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/c0f4ffe120079028c20033cf13619b9f52434c22 || :
+cp %{_builddir}/syncthing/vendor/go.uber.org/mock/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/2b8b815229aa8a61e483fb4ba0588b8b6c491890 || :
 cp %{_builddir}/syncthing/vendor/golang.org/x/crypto/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/d6a5f1ecaedd723c325a2063375b3517e808a2b5 || :
 cp %{_builddir}/syncthing/vendor/golang.org/x/exp/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/d6a5f1ecaedd723c325a2063375b3517e808a2b5 || :
 cp %{_builddir}/syncthing/vendor/golang.org/x/mod/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/d6a5f1ecaedd723c325a2063375b3517e808a2b5 || :
@@ -252,6 +277,7 @@ done
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/syncthing/039965feff6efd8f281c4d4989a2547a27c9270c
 /usr/share/package-licenses/syncthing/06b27345acae9303e13dde9974d2b2e318b05989
+/usr/share/package-licenses/syncthing/08021ae73f58f423dd6e7b525e81cf2520f7619e
 /usr/share/package-licenses/syncthing/0c40e548c3768125e9fd4c09907b2457341edef6
 /usr/share/package-licenses/syncthing/13581bcb019974856e6ab27e6072b7ab22c100db
 /usr/share/package-licenses/syncthing/172ca3bbafe312a1cf09cfff26953db2f425c28e
