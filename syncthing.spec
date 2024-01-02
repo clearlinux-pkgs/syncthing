@@ -8,11 +8,11 @@
 # Source0 file verified with key 0xD26E6ED000654A3E (release@syncthing.net)
 #
 Name     : syncthing
-Version  : 1.27.1
-Release  : 9
-URL      : https://github.com/syncthing/syncthing/releases/download/v1.27.1/syncthing-source-v1.27.1.tar.gz
-Source0  : https://github.com/syncthing/syncthing/releases/download/v1.27.1/syncthing-source-v1.27.1.tar.gz
-Source1  : https://github.com/syncthing/syncthing/releases/download/v1.27.1/syncthing-source-v1.27.1.tar.gz.asc
+Version  : 1.27.2
+Release  : 10
+URL      : https://github.com/syncthing/syncthing/releases/download/v1.27.2/syncthing-source-v1.27.2.tar.gz
+Source0  : https://github.com/syncthing/syncthing/releases/download/v1.27.2/syncthing-source-v1.27.2.tar.gz
+Source1  : https://github.com/syncthing/syncthing/releases/download/v1.27.2/syncthing-source-v1.27.2.tar.gz.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : Apache-2.0 BSD-2-Clause BSD-3-Clause ISC MIT MPL-2.0 MPL-2.0-no-copyleft-exception
@@ -95,7 +95,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1703017119
+export SOURCE_DATE_EPOCH=1704213513
 export GCC_IGNORE_WERROR=1
 export CC=clang
 export CXX=clang++
@@ -145,7 +145,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1703017119
+export SOURCE_DATE_EPOCH=1704213513
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/syncthing
 cp %{_builddir}/syncthing/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/d7e3ed5ac149ac1e2d2e0f4daff081c1dafef1c0 || :
@@ -203,7 +203,6 @@ cp %{_builddir}/syncthing/vendor/github.com/miscreant/miscreant.go/LICENSE.txt %
 cp %{_builddir}/syncthing/vendor/github.com/onsi/ginkgo/v2/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/9f1b6690bcfc732123ae209c90c62f2ba80dfcb0 || :
 cp %{_builddir}/syncthing/vendor/github.com/oschwald/geoip2-golang/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/e23f0c9f837e16ab8a47710ad840069df16a701b || :
 cp %{_builddir}/syncthing/vendor/github.com/oschwald/maxminddb-golang/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/e23f0c9f837e16ab8a47710ad840069df16a701b || :
-cp %{_builddir}/syncthing/vendor/github.com/petermattis/goid/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/c700a8b9312d24bdc57570f7d6a131cf63d89016 || :
 cp %{_builddir}/syncthing/vendor/github.com/pierrec/lz4/v4/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/e46e6a6dce75540a865a761f00e65c78b00c5895 || :
 cp %{_builddir}/syncthing/vendor/github.com/pkg/errors/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/9c1bedc0d42f24c24a1bd266f3ce101a4b0579fc || :
 cp %{_builddir}/syncthing/vendor/github.com/power-devops/perfstat/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/88b150e4e0f2318a6316840ed631fb2cc62d5fcc || :
@@ -216,7 +215,6 @@ cp %{_builddir}/syncthing/vendor/github.com/quic-go/qtls-go1-20/LICENSE %{buildr
 cp %{_builddir}/syncthing/vendor/github.com/quic-go/quic-go/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/78d85619a69f25c64fad9f76fc734a66107b18d4 || :
 cp %{_builddir}/syncthing/vendor/github.com/rcrowley/go-metrics/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/f4f6a4a62f50348c9f4fa311fd2023d8ed32e380 || :
 cp %{_builddir}/syncthing/vendor/github.com/russross/blackfriday/v2/LICENSE.txt %{buildroot}/usr/share/package-licenses/syncthing/da34754c05d40ff81f91de8c1b85ea6e5503e21d || :
-cp %{_builddir}/syncthing/vendor/github.com/sasha-s/go-deadlock/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/92170cdc034b2ff819323ff670d3b7266c8bffcd || :
 cp %{_builddir}/syncthing/vendor/github.com/shirou/gopsutil/v3/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/0c40e548c3768125e9fd4c09907b2457341edef6 || :
 cp %{_builddir}/syncthing/vendor/github.com/syncthing/notify/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/97c18dd612ad4458f3823e836adb21dd11962ac9 || :
 cp %{_builddir}/syncthing/vendor/github.com/syndtr/goleveldb/LICENSE %{buildroot}/usr/share/package-licenses/syncthing/5eaad1bc8f139227bee002062efa2e1b603fb2db || :
@@ -325,7 +323,6 @@ done
 /usr/share/package-licenses/syncthing/bf88cc725ad09db6991d26b4af7cc790ef52c6fb
 /usr/share/package-licenses/syncthing/c0f4ffe120079028c20033cf13619b9f52434c22
 /usr/share/package-licenses/syncthing/c2252212aa407a45427696985f2d8c7f774df3b2
-/usr/share/package-licenses/syncthing/c700a8b9312d24bdc57570f7d6a131cf63d89016
 /usr/share/package-licenses/syncthing/d22157abc0fc0b4ae96380c09528e23cf77290a9
 /usr/share/package-licenses/syncthing/d6a5f1ecaedd723c325a2063375b3517e808a2b5
 /usr/share/package-licenses/syncthing/d78741c6ab8e4933cd2ce6686b234c450f1c3ab5
