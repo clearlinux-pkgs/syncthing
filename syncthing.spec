@@ -9,7 +9,7 @@
 #
 Name     : syncthing
 Version  : 1.28.1
-Release  : 23
+Release  : 24
 URL      : https://github.com/syncthing/syncthing/releases/download/v1.28.1/syncthing-source-v1.28.1.tar.gz
 Source0  : https://github.com/syncthing/syncthing/releases/download/v1.28.1/syncthing-source-v1.28.1.tar.gz
 Source1  : https://github.com/syncthing/syncthing/releases/download/v1.28.1/syncthing-source-v1.28.1.tar.gz.asc
